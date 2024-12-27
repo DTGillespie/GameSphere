@@ -1,4 +1,3 @@
-// boot.S
   .section .text.boot
   .align 7
   .globl _start
