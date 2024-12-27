@@ -1,28 +1,58 @@
 CROSS_COMPILE = aarch64-none-elf-
-CC			= $(CROSS_COMPILE)gcc
-LD			= $(CROSS_COMPILE)ld
-OBJCOPY	= $(CROSS_COMPILE)objcopy
+CC        = $(CROSS_COMPILE)gcc
+LD        = $(CROSS_COMPILE)ld
+OBJCOPY   = $(CROSS_COMPILE)objcopy
 
-CFLAGS	= -Wall -O2 -nostdlib -ffreestanding -fno-builtin
+CFLAGS  = -Wall -O2 -nostdlib -ffreestanding -fno-builtin
 # Targeting ARMv8 AArch64
 CFLAGS += -mcpu=cortex-a72 -march=armv8-a
 
 LDFLAGS = -T linker.ld --gc-sections
 ASFLAGS = -c
 
-all: kernel8.img
+# Where we want to store all build artifacts
+OUT_DIR = bin
 
-boot.o: boot.S
-		$(CC) $(CFLAGS) $(ASFLAGS) boot.S -o boot.o
+# Default target: build the final IMG in our bin folder
+all: $(OUT_DIR)/kernel8.img
 
-main.o: main.c
-		$(CC) $(CFLAGS) -c main.c -o main.o
+# Build rules
+# -------------------------------------------------
 
-kernel8.elf: boot.o main.o linker.ld
-		$(LD) $(LDFLAGS) boot.o main.o -o kernel8.elf
+# 1) boot.o -> goes to bin/boot.o
+$(OUT_DIR)/boot.o: boot.S
+	mkdir -p $(OUT_DIR)
+	$(CC) $(CFLAGS) $(ASFLAGS) $< -o $@
 
-kernel8.img: kernel8.elf
-		$(OBJCOPY) kernel8.elf -O binary kernel8.img
+# 2) main.o -> goes to bin/main.o
+$(OUT_DIR)/main.o: main.c
+	mkdir -p $(OUT_DIR)
+	$(CC) $(CFLAGS) -c $< -o $@
 
+# 3) Link to create bin/kernel8.elf
+$(OUT_DIR)/kernel8.elf: $(OUT_DIR)/boot.o $(OUT_DIR)/main.o
+	$(LD) $(LDFLAGS) $^ -o $@
+
+# 4) Convert ELF -> IMG
+$(OUT_DIR)/kernel8.img: $(OUT_DIR)/kernel8.elf
+	$(OBJCOPY) $< -O binary $@
+
+# Convenience short-hands
+boot.o: $(OUT_DIR)/boot.o
+	@ln -sf $< $@
+
+main.o: $(OUT_DIR)/main.o
+	@ln -sf $< $@
+
+kernel8.elf: $(OUT_DIR)/kernel8.elf
+	@ln -sf $< $@
+
+kernel8.img: $(OUT_DIR)/kernel8.img
+	@ln -sf $< $@
+
+# Cleanup
 clean:
-	rm -f *.0 *.elf *.img
+	rm -rf $(OUT_DIR)
+	rm -f *.o *.elf *.img
+
+.PHONY: all clean

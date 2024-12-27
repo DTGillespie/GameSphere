@@ -1,18 +1,22 @@
 #include <stdint.h>
 
 // Pi 4 uses 0xF3000000 for the base of the peripheral registers
-#define MMIMO_BASE    0xFE000000UL
+//#define MMIMO_BASE    0xFE000000UL
+
+// Pi 3b (QEMU)
+#define MMIMO_BASE    0x3F000000UL
+#define DEBUG_REG ((volatile uint32_t*)(MMIMO_BASE + 0x3000)) // Arbitrary address in MMIO range
 
 // For the PL011 UART (UART0) on Pi 4, offsets are the same but base is 0xFE201000
-#define UART0_BASE  (MMIO_BASE + 0x201000)
-#define UART0_DR    ((volatile uin32_t*)(UART0_BASE + 0x00))
-#define UART0_FR    ((volatile uin32_t*)(UART0_BASE + 0x18))
-#define UART0_IBRD  ((volatile uin32_t*)(UART0_BASE + 0x24))
-#define UART0_FBRD  ((volatile uin32_t*)(UART0_BASE + 0x28))
-#define UART0_LCRH  ((volatile uin32_t*)(UART0_BASE + 0x2C))
-#define UART0_CR    ((volatile uin32_t*)(UART0_BASE + 0x30))
-#define UART0_IMSC  ((volatile uin32_t*)(UART0_BASE + 0x38))
-#define UART0_ICR   ((volatile uin32_t*)(UART0_BASE + 0x44))
+#define UART0_BASE  (MMIMO_BASE + 0x201000)
+#define UART0_DR    ((volatile uint32_t*)(UART0_BASE + 0x00))
+#define UART0_FR    ((volatile uint32_t*)(UART0_BASE + 0x18))
+#define UART0_IBRD  ((volatile uint32_t*)(UART0_BASE + 0x24))
+#define UART0_FBRD  ((volatile uint32_t*)(UART0_BASE + 0x28))
+#define UART0_LCRH  ((volatile uint32_t*)(UART0_BASE + 0x2C))
+#define UART0_CR    ((volatile uint32_t*)(UART0_BASE + 0x30))
+#define UART0_IMSC  ((volatile uint32_t*)(UART0_BASE + 0x38))
+#define UART0_ICR   ((volatile uint32_t*)(UART0_BASE + 0x44))
 
 static inline void delay(int32_t count)
 {
@@ -82,6 +86,7 @@ void main(void)
 {
   uart_init();
   uart_puts("Hello World from AArch64 bare metal on Pi 4b!\n");
+  *DEBUG_REG = 0xDEADBEEF; // Debug marker
 
   while (1) {
     // Spin
