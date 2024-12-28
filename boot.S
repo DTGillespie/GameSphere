@@ -21,7 +21,8 @@ _start:
     msr	    ELR_EL2, x0
     mrs	    x0, SPSR_EL2        // Current status
     bic	    x0, x0, #0b1111   // Clear mode bits
-	orr     x0, x0, #0b0101   // Set EL1h (AARCH64 EL1)
+    mov     x1, #0b0101           // Load the immediate value into another register
+    orr     x0, x0, x1              // Perform the ORR with the value in x1
 	msr     SPSR_EL2, x0
     eret                        // Return to EL1
 
