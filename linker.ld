@@ -1,10 +1,8 @@
-SECTIONS
-{
-  /* Place everything starting at 0x80000. */
-  . = 0x80000;
+SECTIONS {
+  . = 0x80000;              /* Base address */
 
-  .text : {
-    KEEP(*(.text.boot))   /* keep startup code if needed */
+  .text : ALIGN(8) {
+    KEEP(*(.text.boot))     /* Keep startup code */
     *(.text*)
   }
 
@@ -16,11 +14,11 @@ SECTIONS
     *(.data*)
   }
 
-  .bss : {
-    __bss_start__ = .;
-    *(.bss*)
-    *(COMMON)
-    . = ALIGN(8);
-    __bss_end__ = .;
+  .bss : ALIGN(8) {
+    __bss_start__ = .;      /* Mark the start of .bss */
+    *(.bss*)                /* All .bss sections */
+    *(COMMON)               /* Common symbols */
+    . = ALIGN(8);           /* Ensure 8-byte alignment */
+    __bss_end__ = .;        /* Mark the end of .bss */
   }
 }

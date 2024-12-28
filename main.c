@@ -8,6 +8,7 @@ void main(void)
   // Dynamically configure MMIO base based on the detected board model
   configure_mmio_base();
 
+  /*
   // Initialize UART
   uart_init();
 
@@ -17,4 +18,5 @@ void main(void)
   while (1) {
     // Main loop
   }
+  */
 }
