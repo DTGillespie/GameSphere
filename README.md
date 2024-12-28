@@ -43,9 +43,9 @@ Launching QEMU:
 qemu-system-aarch64 -M raspi3b -kernel kernel8.img -serial stdio -monitor none -nographic -S -s
 ```
 
-Attach GDB to QEMU:
+Attach GDB to QEMU (Note: Use the kernel8.elf for debugging not the kernel8.img):
 ```
-gdb-multiarch kernel8.img
+gdb-multiarch kernel8.elf
 target remote localhost:1234
 ```
 
