@@ -38,7 +38,7 @@ qemu-system-aarch64 -M raspi3b -kernel kernel8.img -serial stdio -monitor none -
 
 ### QEMU with GDB Debugging Support
 
-Launching QEMU:
+Launching QEMU with GDB support:
 ```
 qemu-system-aarch64 -M raspi3b -kernel kernel8.img -serial stdio -monitor none -nographic -S -s
 ```
@@ -46,6 +46,7 @@ qemu-system-aarch64 -M raspi3b -kernel kernel8.img -serial stdio -monitor none -
 Attach GDB to QEMU (Note: Use the kernel8.elf for debugging not the kernel8.img):
 ```
 gdb-multiarch kernel8.elf
+
 target remote localhost:1234
 ```
 
@@ -65,4 +66,28 @@ print *debug_reg   # Print the value stored in the debug register
 Inspect memory:
 ```
 x/x 0x3F003000  # Examine the memory at the debug register address (Pi 3B)
+```
+
+# Misc.
+
+### GDB Commands
+
+#### Set Variable
+```
+set $pc=0x80000
+```
+
+#### Inspect Registers
+```
+info registers
+```
+
+#### Examine PC
+```
+x/4i $pc  # Disassemble 4 instructions at the current PC
+```
+
+#### Start Execution
+````
+continue
 ```
