@@ -3,8 +3,10 @@ CC        = $(CROSS_COMPILE)gcc
 LD        = $(CROSS_COMPILE)ld
 OBJCOPY   = $(CROSS_COMPILE)objcopy
 
-CFLAGS  = -Wall -O2 -nostdlib -ffreestanding -fno-builtin
-CFLAGS += -mcpu=cortex-a72 -march=armv8-a
+# Common compiler flags
+CFLAGS  = -Wall -g -O0 -nostdlib -ffreestanding -fno-builtin
+CFLAGS += -march=armv8-a
+
 LDFLAGS = -T linker.ld --gc-sections
 ASFLAGS = -c
 
@@ -14,15 +16,26 @@ SRCS = boot.S main.c src/mmio.c src/videocore.c src/uart.c src/mailbox.c
 OBJS = $(SRCS:%.c=$(OUT_DIR)/%.o)
 OBJS := $(OBJS:%.S=$(OUT_DIR)/%.o)
 
+# Default target (override with "make raspi-3b" or "make raspi-4")
+TARGET_CPU ?= cortex-a53  # Default to Pi 3B
+QEMU_MACHINE ?= raspi3b   # Default QEMU machine
+
+# Define targets for Pi models
+raspi-3b:
+	$(MAKE) all TARGET_CPU=cortex-a53 QEMU_MACHINE=raspi3b
+
+raspi-4:
+	$(MAKE) all TARGET_CPU=cortex-a72 QEMU_MACHINE=raspi3b
+
 all: $(OUT_DIR)/kernel8.img
 
 $(OUT_DIR)/%.o: %.c
 	mkdir -p $(dir $@)
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) -mcpu=$(TARGET_CPU) -c $< -o $@
 
 $(OUT_DIR)/%.o: %.S
 	mkdir -p $(dir $@)
-	$(CC) $(CFLAGS) $(ASFLAGS) $< -o $@
+	$(CC) $(CFLAGS) -mcpu=$(TARGET_CPU) $(ASFLAGS) $< -o $@
 
 $(OUT_DIR)/kernel8.elf: $(OBJS)
 	$(LD) $(LDFLAGS) $^ -o $@
@@ -30,8 +43,11 @@ $(OUT_DIR)/kernel8.elf: $(OBJS)
 $(OUT_DIR)/kernel8.img: $(OUT_DIR)/kernel8.elf
 	$(OBJCOPY) $< -O binary $@
 
+run:
+	qemu-system-aarch64 -M $(QEMU_MACHINE) -kernel $(OUT_DIR)/kernel8.img -serial stdio -monitor none -nographic
+
 clean:
 	rm -rf $(OUT_DIR)
 	rm -f *.o *.elf *.img
 
-.PHONY: all clean
+.PHONY: all clean pi-3b pi-4 run
