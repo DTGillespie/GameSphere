@@ -6,6 +6,7 @@ OBJCOPY   = $(CROSS_COMPILE)objcopy
 CFLAGS  = -Wall -O2 -nostdlib -ffreestanding -fno-builtin
 # Targeting ARMv8 AArch64
 CFLAGS += -mcpu=cortex-a72 -march=armv8-a
+#CFLAGS += -std=c11
 
 LDFLAGS = -T linker.ld --gc-sections
 ASFLAGS = -c
