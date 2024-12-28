@@ -1,5 +1,5 @@
 # GameSphere
-A Raspberry Pi game console kernel with a fixed function render pipeline. The purpose of the GameSphere project is to provide a modern, well-documented, and maintained system for   
+A Raspberry Pi game console kernel with a fixed function render pipeline. The purpose of the GameSphere project is to provide a modern, well-documented, and maintained system for low-level graphics programming enthusiasts and those nostalgic for 6th gen gaming consoles.
 
 ## Building & Hardware
 
