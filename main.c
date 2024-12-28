@@ -1,7 +1,7 @@
 #include <stdint.h>
-#include "mmio.h"
-#include "videocore.h"
-#include "uart.h"
+#include "src/mmio.h"
+#include "src/videocore.h"
+#include "src/uart.h"
 
 // Debug register for testing
 #define DEBUG_REG ((volatile uint32_t*)(get_mmio_base() + 0x3000))
