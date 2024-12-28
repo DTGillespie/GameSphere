@@ -108,8 +108,3 @@ aarch64-none-elf-objdump -D -b binary -m aarch64 kernel8.img
 ```
 readelf -h bin/kernel8.elf | grep "Entry point"
 ```
-
-# Notes
-
-12/28/24
-The boot.S is not properly setting the stack pointer before execution.
