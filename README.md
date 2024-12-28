@@ -88,6 +88,11 @@ x/4i $pc  # Disassemble 4 instructions at the current PC
 ```
 
 #### Start Execution
-````
+```
 continue
 ```
+
+# Notes
+
+12/28/24
+The boot.S is not properly setting the stack pointer before execution.
