@@ -36,6 +36,11 @@ This command will disable the QEMU monitor and redirect the UART0 output to the 
 qemu-system-aarch64 -M raspi3b -kernel kernel8.img -serial stdio -monitor none -nographic
 ```
 
+Running QEMU with logging:
+```
+qemu-system-aarch64 -M raspi3b -kernel kernel8.img -serial stdio -monitor none -nographic -d cpu_reset,int -D qemu-log.txt
+```
+
 ### QEMU with GDB Debugging Support
 
 Launching QEMU with GDB support:
@@ -90,6 +95,18 @@ x/4i $pc  # Disassemble 4 instructions at the current PC
 #### Start Execution
 ```
 continue
+```
+
+#### Disassemble Binary
+```
+aarch64-none-elf-objdump -D -b binary -m aarch64 kernel8.img
+```
+
+### Misc. Commands
+
+#### Examine ELF and Binary contents
+```
+readelf -h bin/kernel8.elf | grep "Entry point"
 ```
 
 # Notes
