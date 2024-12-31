@@ -17,6 +17,8 @@ int mailbox_call(uint8_t channel, uint32_t* buffer)
 
   uint32_t addr = ((uintptr_t)buffer & ~0xF) | (channel & 0xF);
 
+  //int count = 1000000;
+  //while ((*status_reg & MAILBOX_FULL) && --count) {/* Do nothing */};
   while (*status_reg & MAILBOX_FULL) {/* Do nothing */};
   *write_reg = addr;
 
