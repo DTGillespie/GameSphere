@@ -16,26 +16,27 @@ SRCS = boot.S main.c src/mmio.c src/videocore.c src/uart.c src/mailbox.c
 OBJS = $(SRCS:%.c=$(OUT_DIR)/%.o)
 OBJS := $(OBJS:%.S=$(OUT_DIR)/%.o)
 
-# Default target (override with "make raspi-3b" or "make raspi-4")
+# Default target (override with "make raspi3" or "make raspi4")
 TARGET_CPU ?= cortex-a53  # Default to Pi 3B
 QEMU_MACHINE ?= raspi3b   # Default QEMU machine
+TARGET_DEF ?=
 
 # Define targets for Pi models
-raspi-3b:
-	$(MAKE) all TARGET_CPU=cortex-a53 QEMU_MACHINE=raspi3b
+raspi3:
+	$(MAKE) all TARGET_CPU=cortex-a53 QEMU_MACHINE=raspi3b TARGET_DEF=-DRASPI3
 
-raspi-4:
-	$(MAKE) all TARGET_CPU=cortex-a72 QEMU_MACHINE=raspi3b
+raspi4:
+	$(MAKE) all TARGET_CPU=cortex-a72 QEMU_MACHINE=raspi3b TARGET_DEF=-DRASPI4
 
 all: $(OUT_DIR)/kernel8.img
 
 $(OUT_DIR)/%.o: %.c
 	mkdir -p $(dir $@)
-	$(CC) $(CFLAGS) -mcpu=$(TARGET_CPU) -c $< -o $@
+	$(CC) $(CFLAGS) $(TARGET_DEF) -mcpu=$(TARGET_CPU) -c $< -o $@
 
 $(OUT_DIR)/%.o: %.S
 	mkdir -p $(dir $@)
-	$(CC) $(CFLAGS) -mcpu=$(TARGET_CPU) $(ASFLAGS) $< -o $@
+	$(CC) $(CFLAGS) $(TARGET_DEF) -mcpu=$(TARGET_CPU) $(ASFLAGS) $< -o $@
 
 $(OUT_DIR)/kernel8.elf: $(OBJS)
 	$(LD) $(LDFLAGS) $^ -o $@
@@ -50,4 +51,4 @@ clean:
 	rm -rf $(OUT_DIR)
 	rm -f *.o *.elf *.img
 
-.PHONY: all clean pi-3b pi-4 run
+.PHONY: all clean raspi3 raspi4 run

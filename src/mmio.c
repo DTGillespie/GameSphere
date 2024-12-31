@@ -2,7 +2,7 @@
 #include "videocore.h"
 
 // Default MMIO base (QEMU)
-static volatile uint32_t MMIO_BASE = 0x3F000000UL;
+static volatile uint32_t MMIO_BASE = 0x3F000000ULL;
 
 void configure_mmio_base(void)
 {
