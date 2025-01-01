@@ -6,7 +6,6 @@ static volatile uint32_t MMIO_BASE = 0x3F000000ULL;
 
 void configure_mmio_base(void)
 {
-
   volatile uint32_t* debug_reg = (volatile uint32_t*)(0x3F000000 + 0x3000);
 
   uint32_t revision = detect_pi_model();
