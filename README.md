@@ -17,12 +17,12 @@ cortex-a72
 
 #### Compiling for cortex-a53 (Raspberry Pi 3b)
 ```
-make raspi-3b
+make raspi3
 ```
 
 #### Compiling for cortex-a72 (Raspberry Pi 4+)
 ```
-make raspi-4
+make raspi4
 ```
 
 *Note: Defaults to cortex-a53 for QEMU debugging if none is specified.*
