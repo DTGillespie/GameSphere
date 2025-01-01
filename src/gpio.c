@@ -1,3 +1,5 @@
+#include "gpio.h"
+
 #define GPIO_BASE       0XFE200000UL
 #define GPFSEL1_OFFSET  0x04
 #define GPSET0_OFFSET   0x1C
