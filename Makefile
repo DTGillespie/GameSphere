@@ -12,6 +12,7 @@ LDFLAGS = -T linker.ld --gc-sections
 ASFLAGS = -c
 
 OUT_DIR = bin
+RESOURCES_DIR = resources
 
 SRCS = boot.S main.c src/mmio.c src/videocore.c src/uart.c src/mailbox.c src/gpio.c src/util.c
 OBJS = $(SRCS:%.c=$(OUT_DIR)/%.o)
@@ -53,13 +54,16 @@ $(OUT_DIR)/dt-blob.bin: dt-blob.dts
 	mkdir -p $(dir $@)
 	$(DTC) -I dts -O dtb -o $@ $<
 
-# Run in QEMU
-run:
-	qemu-system-aarch64 -M $(QEMU_MACHINE) -kernel $(OUT_DIR)/kernel8.img -serial stdio -monitor none -nographic
+# Rule to copy static resources (bootcode.bin, start.elf, config.txt)
+copy-resources:
+	mkdir -p $(OUT_DIR)
+	cp $(RESOURCES_DIR)/bootcode.bin 	$(OUT_DIR)/
+	cp $(RESOURCES_DIR)/start.elf    	$(OUT_DIR)/
+	cp $(RESOURCES_DIR)/config.txt   	$(OUT_DIR)/
 
 # Clean build
 clean:
 	rm -rf $(OUT_DIR)
 	rm -f *.o *.elf *.img
 
-.PHONY: all clean raspi3 raspi4 run
+.PHONY: all clean raspi3 raspi4 copy-resources

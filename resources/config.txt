@@ -1,0 +1,6 @@
+# Boot configuration for Raspberry Pi
+arm_64bit=1
+kernel=kernel8.img
+
+# Disable default device tree if using custom dt-blob
+device_tree=
