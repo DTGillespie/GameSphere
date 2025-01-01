@@ -5,7 +5,6 @@
 _start:
   
     //Drop to EL1 if in EL2
-
 	mrs     x0, CurrentEL       // Read current EL
 	lsr     x0, x0, #2          // Shift right to get numeric EL
 	cmp     x0, #2

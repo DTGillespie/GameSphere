@@ -1,0 +1,25 @@
+/dts-v1/;
+/{
+  videocore {
+    // This section describes pin configuration to the VideoCore firmware
+    pin_config {
+      pin@p14 {
+        polarity = "active_low";
+        // or "active_high" if you want reversed logic
+        termination = "pull_down";
+        startup_state = "inactive";
+        function = "led";                // Mark it as an LED function
+        drive_strength_mA = <16>;
+      };
+    };
+
+    // This section specifi1cally declares the ACT LED and assigns it to GPIO14
+    leds {
+      act_led {
+        // The 'gpios' phandle says, “use GPIO14, active_low=0 means a normal active-high LED”
+        gpio = <&gpios 14 0>;
+        active_low = <1>;    // or <0> depending on your polarity
+      };
+    };
+  };
+};
