@@ -30,7 +30,7 @@ raspi3:
 raspi4:
 	$(MAKE) all TARGET_CPU=cortex-a72 QEMU_MACHINE=raspi4b TARGET_DEF=-DRASPI4
 
-all: $(OUT_DIR)/kernel8.img $(OUT_DIR)/dt-blob.bin
+all: $(OUT_DIR)/kernel8.img $(OUT_DIR)/dt-blob.bin copy-resources
 
 # Rule to build kernel object files
 $(OUT_DIR)/%.o: %.c
