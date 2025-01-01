@@ -8,7 +8,6 @@
 void main(void)
 {
   // Testing Embedded LED/GPIO binding & control
-  /*
   gpio_set_output(14);
 
   while(1) {
@@ -17,7 +16,6 @@ void main(void)
     gpio_clear(14); // LED Off
     delay(10000000);
   }
-  */
 
   return 0;
 
