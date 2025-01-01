@@ -1,4 +1,5 @@
 #include <stdint.h>
+#include "src/util.h"
 #include "src/mmio.h"
 #include "src/videocore.h"
 #include "src/uart.h"

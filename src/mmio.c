@@ -1,3 +1,4 @@
+#include <stdint.h>
 #include "mmio.h"
 #include "videocore.h"
 
@@ -31,4 +32,14 @@ uint32_t get_mmio_base(void)
 volatile uint32_t* mmio_get_register(uint32_t offset)
 {
   return (volatile uint32_t*)((uintptr_t)MMIO_BASE + offset);
+}
+
+uint32_t GET32(uint64_t addr)
+{
+  return *(volatile uint32_t *)addr;
+}
+
+void PUT32(uint64_t addr, uint32_t value)
+{
+  *(volatile uint32_t *)addr = value;
 }

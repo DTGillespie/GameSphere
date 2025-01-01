@@ -12,7 +12,7 @@ ASFLAGS = -c
 
 OUT_DIR = bin
 
-SRCS = boot.S main.c src/mmio.c src/videocore.c src/uart.c src/mailbox.c
+SRCS = boot.S main.c src/mmio.c src/videocore.c src/uart.c src/mailbox.c src/gpio.c src/util.c
 OBJS = $(SRCS:%.c=$(OUT_DIR)/%.o)
 OBJS := $(OBJS:%.S=$(OUT_DIR)/%.o)
 

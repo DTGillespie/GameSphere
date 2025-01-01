@@ -1,4 +1,5 @@
 #include "gpio.h"
+#include "mmio.h"
 
 #define GPIO_BASE       0XFE200000UL
 #define GPFSEL1_OFFSET  0x04
