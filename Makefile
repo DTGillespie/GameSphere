@@ -57,8 +57,8 @@ $(OUT_DIR)/dt-blob.bin: dt-blob.dts
 # Rule to copy static resources (bootcode.bin, start.elf, config.txt)
 copy-resources:
 	mkdir -p $(OUT_DIR)
-	cp $(RESOURCES_DIR)/bootcode.bin 	$(OUT_DIR)/
-	cp $(RESOURCES_DIR)/start.elf    	$(OUT_DIR)/
+	cp $(RESOURCES_DIR)/fixup4.dat 	  $(OUT_DIR)/
+	cp $(RESOURCES_DIR)/start4.elf    $(OUT_DIR)/
 	cp $(RESOURCES_DIR)/config.txt   	$(OUT_DIR)/
 
 # Clean build

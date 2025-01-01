@@ -113,3 +113,12 @@ aarch64-none-elf-objdump -D -b binary -m aarch64 kernel8.img
 ```
 readelf -h bin/kernel8.elf | grep "Entry point"
 ```
+
+#### CMD - Copy Binaries to SD Card
+``` powershell
+Copy-Item -Path .\config.txt -Destination D:\
+Copy-Item -Path .\dt-blob.bin -Destination D:\
+Copy-Item -Path .\fixup4.dat -Destination D:\
+Copy-Item -Path .\kernel8.img -Destination D:\
+Copy-Item -Path .\start4.elf -Destination D:\
+``` 
